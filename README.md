@@ -23,3 +23,29 @@ chmod -R 775 bootstrap/cache
 
 ps aux|grep nginx|grep -v grep
 ps aux | egrep '(apache|httpd)'
+
+
+
+CREATE TABLE lara_db.places (
+	id INT AUTO_INCREMENT,
+	name VARCHAR(255),
+	visited BOOLEAN,
+	PRIMARY KEY(id)
+);
+
+
+INSERT INTO lara_db.places (name, visited) 
+VALUES ("Tokyo", false),
+("Budapest", true),
+("Nairobi", false),
+("Berlin", true),
+("Lisbon", true),
+("Denver", false),
+("Moscow", false),
+("Olso", false),
+("Rio", true),
+("Cincinnati", false),
+("Helsinki", false);
+
+
+SELECT * FROM lara_db.places;
