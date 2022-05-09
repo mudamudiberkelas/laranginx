@@ -22,13 +22,20 @@ services:
     container_name: laravelapp-db
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: 'lara_db'
-      MYSQL_ROOT_PASSWORD: 'root'
-      MYSQL_PASSWORD: 'lara_password'
-      MYSQL_USER: 'lara_user'
+      #MYSQL_DATABASE: 'lara_db'
+      #MYSQL_ROOT_PASSWORD: 'root'
+      #MYSQL_PASSWORD: 'lara_password'
+      #MYSQL_USER: 'lara_user'
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
     volumes:
       - ./db/mysql:/var/lib/mysql
+      #- dbdata:/var/lib/mysql/
       - ./.docker/mysql/my.cnf:/etc/mysql/my.cnf
+      #- ./.docker/mysql:/docker-entrypoint-initdb.d
     networks:
       - laravelapp
 
@@ -37,7 +44,7 @@ services:
     container_name: laravelapp-nginx
     restart: unless-stopped
     ports:
-      - 8008:80
+      - 8000:80
     volumes:
       - ./src:/var/www
       - ./.docker/nginx:/etc/nginx/conf.d
@@ -47,3 +54,8 @@ services:
 networks: 
   laravelapp:
     driver: bridge
+
+# Volumes
+#volumes:
+#  dbdata:
+#    driver: local

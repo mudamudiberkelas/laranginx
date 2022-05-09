@@ -6,14 +6,15 @@ A Laravel development environment under Docker. Take a look to [Containerize Ngi
 - Nginx
 - MySQL
 
-docker-compose build
+docker-compose build app
 docker-compose up -d
-docker ps
+docker-compose ps
 
-docker exec -it f29812e8f5be bash
-php artisan -V
-docker-compose exec app php artisan -V
-
+docker-compose exec app ls -l
+docker-compose exec app composer install
+docker-compose exec app php artisan key:generate
+docker-compose logs nginx
+docker-compose down
 
 sudo chown -R $USER:www-data storage
 sudo chown -R $USER:www-data bootstrap/cache
@@ -21,9 +22,27 @@ sudo chown -R $USER:www-data bootstrap/cache
 chmod -R 775 storage
 chmod -R 775 bootstrap/cache
 
+docker-compose build
+docker-compose up -d
+docker ps
+
+# PHP
+docker exec -it 728da5a21fd9 bash
+php artisan -V
+php artisan key:generate
+php artisan config:cache
+
+php artisan migrate
+php artisan tinker
+\DB::select('show tables'); 
+\DB::table('migrations')->get();
+
 ps aux|grep nginx|grep -v grep
 ps aux | egrep '(apache|httpd)'
 
+# MYSQL
+docker exec -it f29812e8f5be bash
+mysql -u lara_user -p lara_password
 
 
 CREATE TABLE lara_db.places (
@@ -49,3 +68,16 @@ VALUES ("Tokyo", false),
 
 
 SELECT * FROM lara_db.places;
+
+laravelapp-nginx
+laravelapp-db
+laravelapp-app
+
+
+
+
+
+
+
+
+
